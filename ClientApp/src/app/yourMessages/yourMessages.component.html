@@ -1,0 +1,51 @@
+<div class="top">
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+        <img class="my-0 mr-md-auto" src="assets/images/NDLogo2.png" alt="logo"> 
+        <span>
+        <nav class="my-2 my-md-0 mr-md-3">
+            <a class="p-2 text-dark" [routerLink]="['/home']"><i class="fas fa-home"></i> Home</a>
+            <a class="p-2 text-dark" [routerLink]="['/sell']"><i class="fas fa-dollar-sign"></i> Sell</a>
+            <a class="p-2 text-dark" [routerLink]="['/messages']"><i class="fas fa-comment-alt"></i> Messages</a>
+            <a class="p-2 text-dark" (click) = "logoutClick()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </nav>
+        </span> 
+        <div class="bottom">
+            <i class="fas fa-search" (click) = 'searchClick()'></i>
+            <input type="text" placeholder="Search..." name="newSearch.content" [(ngModel)]="newSearch.content"/>
+        </div>
+        <i class="fas fa-bars navbar" (click) = clickedNav()></i>
+    </div>
+    <ul class="hiddenNav" [style.display] = "navDisplay">
+        <li class="nav-item2">
+            <a class="nav-link2" [routerLink]="['/home']"><i class="fas fa-home"></i> Home</a>
+        </li>
+        <li class="nav-item2">
+            <a class="nav-link2" [routerLink]="['/sell']"><i class="fas fa-dollar-sign"></i> Sell</a>
+        </li>
+        <li class="nav-item2">
+            <a class="nav-link2" class="nav-link2" [routerLink]="['/messages']"><i class="fas fa-comment-alt"></i> Messages</a>
+        </li>
+        <li class="nav-item2">
+            <a class="nav-link2" class="nav-link2" (click) = "logoutClick()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </li>
+    </ul>
+</div>
+
+<div class="mainContent" *ngIf = 'this.offers'>
+    <div class="mesContain" *ngIf = 'this.offers.length >= 1 ; else elseBlock'>
+        <h2>Messages</h2>
+        <div class="messys" *ngFor = 'let off of this.offers' [routerLink] = "['/message/'+off.offerId]">
+            <img src="{{off.product.image}}" alt="{{off.product.title}}" />
+
+            <div class="mesInfo">
+                <p class="user" *ngIf = 'this.off.userOne.userId === this.user.userId; else userBlock'>{{this.off.userTwo.username}}</p>
+                <ng-template class='user' #userBlock>{{this.off.userOne.username}}</ng-template>
+                <p class="prod">{{off.product.title}}</p>
+            </div>
+        </div>
+    </div>
+
+    <ng-template class="mesContain" #elseBlock>
+        <h2>No messages</h2>
+    </ng-template>
+</div>

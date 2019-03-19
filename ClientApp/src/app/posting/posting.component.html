@@ -1,0 +1,51 @@
+<div class="top">
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+        <img [routerLink]="['/home']" class="my-0 mr-md-auto" src="assets/images/NDLogo2.png" alt="logo"> 
+        <span>
+        <nav class="my-2 my-md-0 mr-md-3">
+            <a class="p-2 text-dark" [routerLink]="['/home']"><i class="fas fa-home"></i> Home</a>
+            <a class="p-2 text-dark" [routerLink]="['/sell']"><i class="fas fa-dollar-sign"></i> Sell</a>
+            <a class="p-2 text-dark" [routerLink]="['/messages']"><i class="fas fa-comment-alt"></i> Messages</a>
+            <a class="p-2 text-dark" (click) = "logoutClick()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </nav>
+        </span> 
+        <div class="bottom">
+            <i class="fas fa-search" (click) = 'searchClick()'></i>
+            <input type="text" placeholder="Search..." name="newSearch.content" [(ngModel)]="newSearch.content"/>
+        </div>
+        <i class="fas fa-bars navbar" (click) = clickedNav()></i>
+    </div>
+    <ul class="hiddenNav" [style.display] = "navDisplay">
+        <li class="nav-item2">
+            <a class="nav-link2" [routerLink]="['/home']"><i class="fas fa-home"></i> Home</a>
+        </li>
+        <li class="nav-item2">
+            <a class="nav-link2" [routerLink]="['/sell']"><i class="fas fa-dollar-sign"></i> Sell</a>
+        </li>
+        <li class="nav-item2">
+            <a class="nav-link2" class="nav-link2" [routerLink]="['/messages']"><i class="fas fa-comment-alt"></i> Messages</a>
+        </li>
+        <li class="nav-item2">
+            <a class="nav-link2" class="nav-link2" (click) = "logoutClick()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </li>
+    </ul>
+</div>
+<div class="mainContent" *ngIf = 'this.product'>
+    <div class="imageContainer">
+        <img class="topImage" src="{{this.product.image}}"/>
+    </div>
+    <div class="middle">
+        <h1>{{this.product.title}}<span class="priceTag">${{this.product.price}}</span></h1>
+        <p class="lighten">Posted: {{this.product.createdAt | date: 'short'}}</p>
+        <div class="line"></div>
+        <h5>Posted by:</h5>
+        <p>{{this.product.user.username}}</p>
+        <div class="line"></div>
+        <h5>Description:</h5>
+        <p>{{this.product.desc}}</p>
+    </div>
+    <span *ngIf = 'this.user.userId !== this.product.user.userId'>
+        <a class="deal" *ngIf = 'this.isOffer; else routeBlock' [routerLink] = "['/message/'+this.offerId]">View Messages</a>
+        <ng-template #routeBlock><a class="deal" [routerLink] = "['/message/'+this.product.user.userId+'/'+this.product.productId]">Make Deal</a></ng-template>
+    </span>
+</div>

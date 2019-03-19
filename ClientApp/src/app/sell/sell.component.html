@@ -1,0 +1,76 @@
+<div class="top">
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+        <img [routerLink]="['/home']" class="my-0 mr-md-auto" src="assets/images/NDLogo2.png" alt="logo"> 
+        <span>
+        <nav class="my-2 my-md-0 mr-md-3">
+            <a class="p-2 text-dark" [routerLink]="['/home']"><i class="fas fa-home"></i> Home</a>
+            <a class="p-2 text-dark" [routerLink]="['/sell']"><i class="fas fa-dollar-sign"></i> Sell</a>
+            <a class="p-2 text-dark" [routerLink]="['/messages']"><i class="fas fa-comment-alt"></i> Messages</a>
+            <a class="p-2 text-dark" (click) = "logoutClick()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </nav>
+        </span>
+        <div class="bottom">
+            <i class="fas fa-search" (click) = 'searchClick()'></i>
+            <input type="text" placeholder="Search..." name="newSearch.content" [(ngModel)]="newSearch.content"/>
+        </div>
+        <i class="fas fa-bars navbar" (click) = clickedNav()></i>
+    </div>
+    <ul class="hiddenNav" [style.display] = "navDisplay">
+        <li class="nav-item2">
+            <a class="nav-link2" [routerLink]="['/home']"><i class="fas fa-home"></i> Home</a>
+        </li>
+        <li class="nav-item2">
+            <a class="nav-link2" [routerLink]="['/sell']"><i class="fas fa-dollar-sign"></i> Sell</a>
+        </li>
+        <li class="nav-item2">
+            <a class="nav-link2" class="nav-link2" [routerLink]="['/messages']"><i class="fas fa-comment-alt"></i> Messages</a>
+        </li>
+        <li class="nav-item2">
+            <a class="nav-link2" class="nav-link2" (click) = "logoutClick()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </li>
+    </ul>
+</div>
+<div class="mainContent">
+    <img class="preview" *ngIf = 'this.previewImage' src="{{this.previewImage}}" />
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+            <h2 class="active">Sell Something</h2>
+            <form (submit) = "onSubmit()">
+            <input type="text" class="fadeIn second content" placeholder="Title" aria-describedby="titleHelp" name="makeProd.title" [(ngModel)]="makeProd.title" />
+            <small id="titleHelp" class="form-text text-muted"><span class="errors" *ngIf = "errorTitle"><span *ngFor = "let errorT of errorTitle">{{errorT.errorMessage}} </span></span></small>
+            
+            <span style="position:absolute; z-index: 5; margin-left: 15px; margin-top: 15px; font-size: 18pt;">$</span>
+            <input type="number" step="0.01" class="fadeIn second content" placeholder="Price" aria-describedby="priceHelp" name="makeProd.price" [(ngModel)]="makeProd.price" />
+            <small id="priceHelp" class="form-text text-muted"><span class="errors" *ngIf = "errorPrice"><span *ngFor = "let errorP of errorPrice">{{errorP.errorMessage}} </span></span></small>
+            
+            <input type="text" class="fadeIn second content" placeholder="City, ST" aria-describedby="cityHelp" name="makeProd.city" [(ngModel)]="makeProd.city" />
+            <small id="cityHelp" class="form-text text-muted"><span class="errors" *ngIf = "errorCity"><span *ngFor = "let errorC of errorCity">{{errorC.errorMessage}}</span></span></small>
+
+            <input type="text" class="fadeIn second content" placeholder="Description" aria-describedby="descHelp" name="makeProd.desc" [(ngModel)]="makeProd.desc" />
+            <small id="descHelp" class="form-text text-muted"><span class="errors" *ngIf = "errorDesc"><span *ngFor = "let errorD of errorDesc">{{errorD.errorMessage}}</span></span></small>
+
+            <label for="fileIMG" class="fadeIn second content imgUpld"><i class="fas fa-images"></i> Upload Image</label>
+            <input type="file" id="fileIMG" class="fadeIn second content" placeholder="Upload Image" aria-describedby="imgHelp" (change)="changeListener($event)" />
+            <small id="imgHelp" class="form-text text-muted"><span class="errors" *ngIf = "errorImage"><span *ngFor = "let errorI of errorImage">{{errorI.errorMessage}}</span></span></small>
+
+            <input type="submit" class="fadeIn fourth" value="Submit">
+            </form>
+        
+            <div id="formFooter">
+            <a class="underlineHover" [routerLink]="['/']">Go back</a>
+            </div>
+        
+        </div>
+    </div>
+    <h1 class="yourProds">What you have for sale</h1>
+    <div class="bottomContent" *ngIf = 'this.products'>
+        <div class="itemContent" *ngFor = 'let prod of this.products'>
+            <i class="fas fa-times-circle delete" (click) = 'deleteThis(prod.productId)'></i>
+            <img src="{{prod.image}}"/>
+            <p>{{prod.title}}</p>
+            <p class="price">${{prod.price}}</p>
+            <p class="bottomGray">{{prod.createdAt | date: 'short'}}</p>
+            <p class="bottomGray">{{prod.city}}</p>
+        </div>
+    </div>
+</div>

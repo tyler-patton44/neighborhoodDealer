@@ -1,0 +1,55 @@
+<div class="top">
+        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+            <img [routerLink]="['/home']" class="my-0 mr-md-auto" src="assets/images/NDLogo2.png" alt="logo"> 
+            <span>
+            <nav class="my-2 my-md-0 mr-md-3">
+                <a class="p-2 text-dark" [routerLink]="['/home']"><i class="fas fa-home"></i> Home</a>
+                <a class="p-2 text-dark" [routerLink]="['/sell']"><i class="fas fa-dollar-sign"></i> Sell</a>
+                <a class="p-2 text-dark" [routerLink]="['/messages']"><i class="fas fa-comment-alt"></i> Messages</a>
+                <a class="p-2 text-dark" (click) = "logoutClick()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </nav>
+            </span> 
+            <div class="bottom">
+                <i class="fas fa-search" (click) = 'searchClick()'></i>
+                <input type="text" placeholder="Search..." name="newSearch.content" [(ngModel)]="newSearch.content"/>
+            </div>
+            <i class="fas fa-bars navbar" (click) = clickedNav()></i>
+        </div>
+        <ul class="hiddenNav" [style.display] = "navDisplay">
+            <li class="nav-item2">
+                <a class="nav-link2" [routerLink]="['/home']"><i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="nav-item2">
+                <a class="nav-link2" [routerLink]="['/sell']"><i class="fas fa-dollar-sign"></i> Sell</a>
+            </li>
+            <li class="nav-item2">
+                <a class="nav-link2" class="nav-link2" [routerLink]="['/messages']"><i class="fas fa-comment-alt"></i> Messages</a>
+            </li>
+            <li class="nav-item2">
+                <a class="nav-link2" class="nav-link2" (click) = "logoutClick()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </li>
+        </ul>
+    </div>
+    <div class="mainContent">
+        <h1>Messages</h1>
+
+        <div class="scroller" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+            <div class="mes">
+                <div class="triangle"></div>
+                <div class="mesContent">
+                    <p>Make sure to meet in public.</p>
+                    <p>Ask for more images to confirm this is what you want.</p>
+                </div>
+            </div>
+        </div>
+        <form (submit) = "onSubmit()">
+            <p>Messages for <span class="formLinks" *ngIf = 'this.product' [routerLink]="['/posting/'+this.product.productId]">{{this.product.title}}</span></p>
+            <label for="file-input">
+                    <i class="fas fa-image" [ngStyle]="{'color':imageReady}"></i>
+            </label>
+            <input id="file-input" type="file" (change)="changeListener($event)" />
+            <small id="mesHelp" class="form-text text-muted"><span class="errors" *ngIf = "errorMessage"><span *ngFor = "let errorM of errorMessage">{{errorM.errorMessage}} </span></span></small>
+            <input type="text" placeholder="Message" aria-describedby="mesHelp" name="newMessage.content" [(ngModel)]="newMessage.content">
+            <button type="submit">Send</button>
+        </form>
+    </div>
