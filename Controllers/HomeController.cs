@@ -213,8 +213,14 @@ namespace neighborhoodDealer.Controllers
                 error.Add("Message", "Error");
                 return Json(error);
             }
-             products oneProduct = dbContext.products.Where(p=>p.productId == id).Include(u=>u.user).FirstOrDefault();
-             return Json(oneProduct);
+            if(dbContext.products.Any(p=>p.productId == id)){
+                products oneProduct = dbContext.products.Where(p=>p.productId == id).Include(u=>u.user).FirstOrDefault();
+                return Json(oneProduct);
+            }else{
+                Dictionary<string, string> error = new Dictionary<string, string>();
+                error.Add("Message", "Error");
+                return Json(error);
+            }
         }
 
         [HttpPost("/newMessage/{id}/{productId}")]
@@ -319,9 +325,15 @@ namespace neighborhoodDealer.Controllers
                 error.Add("Message", "Error");
                 return Json(error);
             }
+            if(dbContext.offers.Any(o=>o.offerId == id)){
             int userId = HttpContext.Session.GetInt32("UserId") ?? default(int);
             offers offerMes = dbContext.offers.Where(o=>o.offerId == id).Include(u=>u.userOne).Include(ut=>ut.userTwo).Include(p=>p.product).Include(m=>m.messages).FirstOrDefault();
             return Json(offerMes);
+            }else{
+                Dictionary<string, string> error = new Dictionary<string, string>();
+                error.Add("Message", "Error");
+                return Json(error);
+            }
         }
 
         [HttpGet("searchProduct/{search}")]
